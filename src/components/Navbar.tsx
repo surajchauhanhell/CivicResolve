@@ -108,6 +108,15 @@ export const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            {/* DeepFake External Link */}
+            <a
+              href="https://deeppathokami.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+            >
+              DeepFake
+            </a>
           </div>
 
           {/* Right side */}

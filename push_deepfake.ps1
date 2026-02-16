@@ -1,9 +1,9 @@
-# Push contact info updates to GitHub
+# Push DeepFake link to GitHub
 Write-Host "Adding changes..."
 git add .
 
 Write-Host "Committing changes..."
-git commit -m "Updated contact information - Indian phone number and Mumbai address"
+git commit -m "Added DeepFake link to header navigation (desktop and mobile)"
 
 Write-Host "Pushing to GitHub..."
 git push origin main
