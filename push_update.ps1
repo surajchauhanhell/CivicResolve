@@ -1,9 +1,9 @@
-# Add and push changes to GitHub
+# Push Vite config fix to GitHub
 Write-Host "Adding changes..."
 git add .
 
 Write-Host "Committing changes..."
-git commit -m "Updated officer panel with statistics and improved sign-in button visibility"
+git commit -m "Fixed SPA routing - added historyApiFallback to Vite config"
 
 Write-Host "Pushing to GitHub..."
 git push origin main
