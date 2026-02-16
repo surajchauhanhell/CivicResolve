@@ -1,9 +1,9 @@
-# Fix Vercel build and push
+# Push contact info updates to GitHub
 Write-Host "Adding changes..."
 git add .
 
 Write-Host "Committing changes..."
-git commit -m "Fixed Vercel build error - removed invalid config and added vercel.json for SPA routing"
+git commit -m "Updated contact information - Indian phone number and Mumbai address"
 
 Write-Host "Pushing to GitHub..."
 git push origin main
