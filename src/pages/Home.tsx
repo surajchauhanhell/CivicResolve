@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { 
-  Shield, 
-  FileText, 
-  MapPin, 
-  Clock, 
-  CheckCircle2, 
-  TrendingUp, 
-  Users, 
+import {
+  Shield,
+  FileText,
+  MapPin,
+  Clock,
+  CheckCircle2,
+  TrendingUp,
+  Users,
   Star,
   ArrowRight,
   CircleDot,
@@ -115,8 +115,8 @@ const Home = () => {
               </p>
               <div className="flex flex-wrap gap-4">
                 {isAuthenticated ? (
-                  <Button 
-                    size="lg" 
+                  <Button
+                    size="lg"
                     className="bg-white text-blue-700 hover:bg-blue-50"
                     onClick={() => navigate('/report')}
                   >
@@ -125,18 +125,18 @@ const Home = () => {
                   </Button>
                 ) : (
                   <>
-                    <Button 
-                      size="lg" 
+                    <Button
+                      size="lg"
                       className="bg-white text-blue-700 hover:bg-blue-50"
                       onClick={() => navigate('/register')}
                     >
                       Get Started
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
-                    <Button 
-                      size="lg" 
-                      variant="outline" 
-                      className="border-white text-white hover:bg-white/10"
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border-2 border-white bg-white/10 text-white hover:bg-white hover:text-blue-700 transition-all"
                       onClick={() => navigate('/login')}
                     >
                       Sign In
@@ -148,7 +148,7 @@ const Home = () => {
             <div className="hidden lg:block">
               <div className="relative">
                 <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-2xl" />
-                <img 
+                <img
                   src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop"
                   alt="City"
                   className="relative rounded-2xl shadow-2xl"
@@ -253,8 +253,8 @@ const Home = () => {
             {Object.entries(CATEGORIES).map(([key, category]) => {
               const Icon = categoryIcons[key] || HelpCircle;
               return (
-                <Card 
-                  key={key} 
+                <Card
+                  key={key}
                   className="hover:shadow-lg transition-shadow cursor-pointer group"
                   onClick={() => navigate(isAuthenticated ? '/report' : '/register')}
                 >
@@ -282,8 +282,8 @@ const Home = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             {isAuthenticated ? (
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-white text-blue-700 hover:bg-blue-50"
                 onClick={() => navigate('/report')}
               >
@@ -292,18 +292,18 @@ const Home = () => {
               </Button>
             ) : (
               <>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-white text-blue-700 hover:bg-blue-50"
                   onClick={() => navigate('/register')}
                 >
                   Create Free Account
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white text-white hover:bg-white/10"
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-white bg-white/10 text-white hover:bg-white hover:text-blue-700 transition-all"
                   onClick={() => navigate('/login')}
                 >
                   Sign In
