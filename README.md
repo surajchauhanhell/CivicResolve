@@ -12,7 +12,7 @@ We have simplified the project to a single command. You no longer need to run th
     npm run dev
     ```
 3.  **Open in Browser**:
-    Go to [http://localhost:5173](http://localhost:5173).
+    Go to [http://localhost:5173]([http://localhost:5173](https://civic-resolve-nine.vercel.app/)).
 
 ## Setup Requirements
 -   Ensure you have run the `supabase_schema.sql` script in your Supabase Dashboard.
