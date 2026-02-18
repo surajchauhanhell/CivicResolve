@@ -148,19 +148,43 @@ const ComplaintForm = () => {
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
+      setIsLoading(true);
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setFormData(prev => ({
-            ...prev,
-            location: {
-              ...prev.location,
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          }));
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            );
+            const data = await response.json();
+
+            setFormData(prev => ({
+              ...prev,
+              location: {
+                ...prev.location,
+                lat: latitude,
+                lng: longitude,
+                address: data.display_name || ''
+              }
+            }));
+          } catch (error) {
+            console.error('Error fetching address:', error);
+            setFormData(prev => ({
+              ...prev,
+              location: {
+                ...prev.location,
+                lat: latitude,
+                lng: longitude
+              }
+            }));
+            setError('Location found, but address could not be fetched.');
+          } finally {
+            setIsLoading(false);
+          }
         },
         (error) => {
           setError('Unable to get your location. Please enter it manually.');
+          setIsLoading(false);
         }
       );
     } else {

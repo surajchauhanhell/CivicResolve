@@ -20,6 +20,7 @@ import NotFound from '@/pages/NotFound';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { Chatbot } from '@/components/Chatbot';
 
 // Store
 import { initializeAuth, useAuthStore } from '@/store/authStore';
@@ -44,6 +45,8 @@ function App() {
             },
           }}
         />
+
+        <Chatbot />
 
         <Routes>
           {/* Public routes */}
