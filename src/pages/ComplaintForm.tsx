@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   MapPin,
@@ -7,8 +7,19 @@ import {
   AlertCircle,
   CheckCircle2,
   Camera,
-  Loader2
+  Loader2,
+  Minimize2,
+  Maximize2
 } from 'lucide-react';
+import Webcam from 'react-webcam';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,6 +34,8 @@ import type { ComplaintCategory } from '@/types';
 const ComplaintForm = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const webcamRef = useRef<Webcam>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -91,8 +104,38 @@ const ComplaintForm = () => {
       images: [...prev.images, ...validFiles]
     }));
     setImagePreviews(prev => [...prev, ...previews]);
+    setImagePreviews(prev => [...prev, ...previews]);
     setError('');
   };
+
+  const handleCameraCapture = useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      if (formData.images.length >= MAX_FILES) {
+        setError(`Maximum ${MAX_FILES} images allowed`);
+        setIsCameraOpen(false);
+        return;
+      }
+
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], `camera-${Date.now()}.jpg`, { type: 'image/jpeg' });
+          if (file.size > MAX_FILE_SIZE) {
+            setError('Captured image is too large');
+            return;
+          }
+
+          setFormData(prev => ({
+            ...prev,
+            images: [...prev.images, file]
+          }));
+          setImagePreviews(prev => [...prev, imageSrc]);
+          setIsCameraOpen(false);
+          setError('');
+        });
+    }
+  }, [formData.images.length]);
 
   const removeImage = (index: number) => {
     setFormData(prev => ({
@@ -364,6 +407,58 @@ const ComplaintForm = () => {
                     disabled={isLoading}
                   />
                 </div>
+
+                <div className="text-center mt-2">
+                  <span className="text-sm text-gray-500">OR</span>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full mt-2"
+                  onClick={() => setIsCameraOpen(true)}
+                  disabled={isLoading || formData.images.length >= MAX_FILES}
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  Take Photo
+                </Button>
+
+                {/* Camera Dialog */}
+                <Dialog open={isCameraOpen} onOpenChange={setIsCameraOpen}>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Take Photo</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
+                        <Webcam
+                          audio={false}
+                          ref={webcamRef}
+                          screenshotFormat="image/jpeg"
+                          videoConstraints={{
+                            facingMode: 'environment'
+                          }}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex justify-center space-x-2 w-full">
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={() => setIsCameraOpen(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={handleCameraCapture}
+                        >
+                          Capture
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
 
                 {/* Image Previews */}
                 {imagePreviews.length > 0 && (
